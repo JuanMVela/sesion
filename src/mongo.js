@@ -5,22 +5,24 @@ const dbMongoConnect = async () => {
   // console.log(RUTADB);
   mongoose.set("strictQuery", true);
 
-  mongoose.connect(RUTADB, (error) => {
-    if (!error) {
-      console.log("CONEXION EXITOSA");
-    } else {
-      console.log("ERROR DE CONEXION");
-    }
+  const connection = await mongoose.connect(RUTADB, {
+    useNewUrlparser: true,
+    useUnifiedTopology: true,
   });
-
-  // Probando Paginate------------------------------------------
-
-  // const response = await productModel.paginate(
-  //   { description: "Bebida" },
-  //   { page: 2, limit: 2 }
-  // );
-
-  // Probando Paginate------------------------------------------
+  if (connection) {
+    console.log("CONEXION EXITOSA");
+  } else {
+    console.log("ERROR DE CONEXION");
+  }
 };
+
+// Probando Paginate------------------------------------------
+
+// const response = await productModel.paginate(
+//   { description: "Bebida" },
+//   { page: 2, limit: 2 }
+// );
+
+// Probando Paginate------------------------------------------
 
 module.exports = dbMongoConnect();

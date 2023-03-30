@@ -2,12 +2,12 @@
 const products = require("./routers/products");
 const carts = require("./routers/carts");
 const viewsRouters = require("./routers/viewsRouter");
-const login = require("./routers/login");
+const session = require("./routers/session");
 
 // Modelos
 
 const { productModel } = require("./models/products.model");
-const { userModel } = require("./models/user.model");
+// const { userModel } = require("./models/user.model");
 
 const express = require("express");
 const app = express();
@@ -15,18 +15,15 @@ const app = express();
 const handlebars = require("express-handlebars");
 const { Server } = require("socket.io");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
+const sessions = require("express-session");
 const mongoStore = require("connect-mongo");
 
 const dotenv = require("dotenv");
 dotenv.config();
 
 // Middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser("codersecret"));
 app.use(
-  session({
+  sessions({
     secret: "secretcoder",
     resave: true,
     saveUninitialized: true,
@@ -38,6 +35,10 @@ app.use(
     }),
   })
 );
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser("codersecret"));
+
 // Vistas
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
@@ -49,7 +50,7 @@ app.use(express.static("public"));
 app.use("/productos", products);
 app.use("/carts", carts);
 app.use("/views", viewsRouters);
-app.use("/login", login);
+app.use("/session", session);
 
 // Puerto servidor
 const PORT = 8080;
@@ -94,21 +95,6 @@ socketServer.on("connection", async (socket) => {
       // res.status(404).send("El producto no existe");
     }
   });
-
-  // WEBSOCKETS USUARIOS------------------------------------------
-
-  // Almacenar los "usuarios" desde MongoDB en una variable
-  const users = await userModel.find().lean();
-
-  // Socket AGREGAR nuevo usuario
-  // socket.on("newUser", async (data) => {
-  //   console.log(data);
-  //   await userModel.create(data);
-  //   const usersAct = await userModel.find();
-  //   socket.emit("cargaUsers", usersAct);
-  // });
-  // Socket VISUALIZAR usuarios en tiempo real
-  socket.emit("cargaUsers", users);
 });
 
 // Conexion a MongoDB

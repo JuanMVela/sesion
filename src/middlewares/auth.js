@@ -1,9 +1,8 @@
 const auth = async (req, res, next) => {
-  if (req.session.usuario && req.session.admin === true) {
+  if (req.session.email && req.session.admin === true) {
     return next();
-  } else {
-    return res.send("error de autenticacion");
   }
+  return res.send("error de autenticacion");
 };
 
-module.exports = auth;
+module.exports = { auth };

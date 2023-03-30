@@ -1,28 +1,19 @@
 <div>
   <h1>Registrar Usuario</h1>
-  <form action="http://localhost:8080/login/registrar" method="POST">
-    email:<input name="email" type="email" placeholder="E-mail"/> <br>
-    password:<input name="password" type="password" placeholder="password"/>
+  <form action="http://localhost:8080/session/registro" method="POST">
+    email:<input name="email" type="email" placeholder="E-mail" /> <br>
+    password:<input name="password" type="password" placeholder="password" /><br>
 
     <button type="submit">Registrar</button>
-  </form>
+  </form><br>
 </div>
 
 <div>
   <h1>Login usuario</h1>
-  <form action="http://localhost:8080/login/login" method="POST">
-    email:<input name="email" type="email" placeholder="E-mail"/> <br>
-    password:<input name="password" type="password" placeholder="password"/>
+  <form action="http://localhost:8080/session/login" method="POST">
+    email:<input name="email" type="email" placeholder="E-mail" /> <br>
+    password:<input name="password" type="password" placeholder="password" /><br>
 
     <button type="submit">Login</button>
-  </form>
+  </form><br>
 </div>
-
-{{!-- <div style="border:4px solid black;">
-  <h2>Usuarios registrados en DB:</h2>
-  <hr>
-  <div id="loginRealTime">
-  </div>
-</div> --}}
-
-
